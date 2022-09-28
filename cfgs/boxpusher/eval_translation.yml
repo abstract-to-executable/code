@@ -1,0 +1,21 @@
+env: "BoxPusherTrajectory-v0"
+device: "cuda"
+env_cfg:
+  task_agnostic: False
+  reward_type: "lcs_dense"
+  # trajectories: "datasets/data_v1_new/clean_learned_val_ids.npy"
+  trajectories: "datasets/boxpusher_v2/dataset_train_ids.npy"
+  # trajectories: "datasets/boxpusher_v1/dataset_train_ids_512.npy"
+  # trajectories: "datasets/boxpusher_v1/dataset_test_ids.npy"
+  trajectories_dataset: "datasets/boxpusher_v2/dataset.pkl"
+  # trajectories_dataset: "datasets/data_v1_new/clean_learned.npy"
+  max_trajectory_skip_steps: 15
+  control_type: "2D-continuous"
+  exclude_target_state: True
+  fixed_max_ep_len: 200
+  env_rew_weight: 0.1
+  speed_factor: 0.5
+  early_success: True
+
+test_n: 128
+n_envs: 8

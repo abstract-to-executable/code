@@ -1,0 +1,69 @@
+# experiment hyperparameters
+
+verbose: True
+device: "cpu"
+
+exp_cfg:
+  seed: 0
+  steps: 10000000
+  eval_freq: 100
+  save_freq: 1000
+  batch_size: 512
+  lr: 1e-3
+
+  predict_current_state_only: False
+
+  # following not implemented yet
+  state_loss: False
+  returns_to_go_loss: False
+  
+
+logging_cfg:
+  workspace: results
+  exp_name: boxpusher_v1_offline/transformer
+  wandb: False
+  tensorboard: True
+  log_freq: 20
+
+
+dataset: "datasets/boxpusher_v1/dataset.pkl"
+train_ids: "datasets/boxpusher_v1/dataset_train_ids_512.npy"
+val_ids: "datasets/boxpusher_v1/dataset_val_ids_512.npy"
+
+model_cfg:
+  type: "TranslationTransformer"
+
+  state_dims: 4
+  teacher_dims: 2
+  act_dims: 4
+
+  max_time_steps: 1024
+  # below should also be merged into dataset_cfgs
+  max_student_length: 128
+  max_teacher_length: 64
+  trajectory_sample_skip_steps: 1
+  # equivalent to positional embeddings
+  timestep_embeddings: False
+  # whether to include past student actions into the student stack frames fed into transformer
+  use_past_actions: True
+  # whether to use layer normalization after the initial embedding layers of student/teacher states and student actions
+  embed_layer_norm: True
+
+  # translation model specific configs
+  stack_size: 5
+  state_embedding_hidden_sizes: (64,)
+  state_embedding_activation: 'relu'
+  final_mlp_hidden_sizes: (64,64)
+  final_mlp_activation: 'relu'
+  
+  final_mlp_action_pred_activation: 'tanh'
+  final_mlp_state_pred_activation: 'tanh'
+
+  # gpt2 specific https://huggingface.co/docs/transformers/model_doc/gpt2#transformers.GPT2Config
+  transformer_config:
+    n_head: 2
+    n_layer: 4
+    activation_function: 'gelu_new'
+    resid_pdrop: 0.1 
+    embd_pdrop: 0.1
+    attn_pdrop: 0.1

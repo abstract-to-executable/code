@@ -1,0 +1,18 @@
+env: "OpenDrawerTrajectory-v0"
+env_cfg:
+  early_success: True
+  task_agnostic: False
+  reward_type: "lcs_dense"
+  trajectories: 'datasets/maniskill/dataset_test_ids.npy'
+  trajectories_dataset: "datasets/maniskill/dataset_test.pkl"
+  max_trajectory_skip_steps: 15
+  fixed_max_ep_len: 200
+  give_traj_id: False
+  max_trajectory_length: 1000
+  max_world_state_stray_dist: 0.1
+  max_coord_stray_dist: 0.1
+  robot_type: 'Arm'
+  controller: 'arm'
+
+test_n: 128
+n_envs: 4

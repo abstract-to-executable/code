@@ -1,0 +1,38 @@
+env: "BoxPusherTrajectory-v0"
+
+
+env_cfg:
+  task_agnostic: False
+  reward_type: "trajectory"
+  trajectories: [1]
+  trajectories_dataset: "datasets/boxpusher_v1/dataset_fix.pkl"
+  max_trajectory_skip_steps: 10
+  exclude_target_state: True
+  control_type: "2D-continuous"
+  fixed_max_ep_len: 350
+  seed_by_dataset: False
+  planner_cfg:
+    planner: "v1"
+    planning_env: "v1"
+    render_plan: False
+    max_plan_length: 32
+    re_center: True
+    save_plan_videos: False
+    min_student_execute_length: 30
+    env_cfg:
+      magic_control: True
+      control_type: 2D
+      obs_mode: dict
+      disable_ball_removal: True
+      obstacles: []
+  obstacles: []
+
+# If True, masks out teacher trajectory and zeros it out
+ignore_teacher: False
+# If True, saves video locally
+save_video_path: None
+
+# path to model weights. Model should be a TranslationPolicy
+model: "???"
+
+# n_envs: 1

@@ -1,0 +1,47 @@
+env: "BoxPusherTrajectory-v0"
+env_cfg:
+  task_agnostic: False
+  reward_type: "lcs_dense"
+  trajectories: "datasets/boxpusher_v2/dataset_train_ids.npy"
+  trajectories_dataset: "datasets/boxpusher_v2/dataset.pkl"
+  max_trajectory_skip_steps: 15
+  control_type: "2D-continuous"
+  exclude_target_state: True
+  fixed_max_ep_len: 200
+  seed_by_dataset: True
+  env_rew_weight: 0.1
+  speed_factor: 0.5
+  planner_cfg:
+    planner: "v1"
+    planning_env: "v1"
+    render_plan: False
+    max_plan_length: 3000
+    re_center: False
+    save_plan_videos: False
+    min_student_execute_length: 100
+    max_student_execute_length: 200
+    env_cfg:
+      magic_control: True
+      control_type: 2D
+      obs_mode: dict
+      disable_ball_removal: True
+# 84 -> #86 -> 89
+  # test model without replanning
+  # planner_cfg:
+  #   planner: "v1"
+  #   planning_env: "v1"
+  #   render_plan: False
+  #   max_plan_length: 35000
+  #   re_center: True
+  #   save_plan_videos: False
+  #   min_student_execute_length: 20000
+  #   env_cfg:
+  #     magic_control: True
+  #     control_type: 2D
+  #     obs_mode: dict
+  #     disable_ball_removal: True
+
+
+test_n: 128
+n_envs: 8
+# IDS [2182, 1082, 1307, 1770, 2072, 2841, 7, 1736, 2337, 3505, 3431, 3417, 3702, 2650, 2253, 761, 2297, 1816, 1494, 1262, 3189, 107, 667, 3035, 1455, 1998, 3126, 3695, 3945, 322, 11, 2076]

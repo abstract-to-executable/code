@@ -1,0 +1,60 @@
+# experiment hyperparameters
+
+verbose: True
+device: "cuda"
+
+exp_cfg:
+  seed: 0
+  steps: 10000000
+  eval_freq: 500
+  batch_size: 512
+
+logging_cfg:
+  exp_name: boxpusher_bc
+  wandb: False
+  tensorboard: True
+  log_freq: 20
+
+dataset_cfg: 
+  dataset: "datasets/data_v1_new/clean_learned.npy"
+  train_ids: "datasets/data_v1_new/clean_learned_train_ids.npy"
+  val_ids: "datasets/data_v1_new/clean_learned_val_ids.npy"
+
+model_cfg:
+  type: "TranslationTransformer"
+
+  state_dims: 6
+  act_dims: 2
+  teacher_dims: 6
+
+  max_time_steps: 1024
+  # below should also be merged into dataset_cfgs
+  max_student_length: 128
+  max_teacher_length: 28
+  trajectory_sample_skip_steps: 3
+  # equivalent to positional embeddings
+  # timestep_embeddings: True
+  timestep_embeddings: False
+  # whether to include past student actions into the student stack frames fed into transformer
+  use_past_actions: True
+  # whether to use layer normalization after the initial embedding layers of student/teacher states and student actions
+  embed_layer_norm: True
+
+  # translation model specific configs
+  stack_size: 5
+  state_embedding_hidden_sizes: (64,)
+  state_embedding_activation: 'relu'
+  final_mlp_hidden_sizes: (64, 64)
+  final_mlp_activation: 'tanh'
+  
+  final_mlp_action_pred_activation: 'tanh'
+  final_mlp_state_pred_activation: 'identity'
+
+  # gpt2 specific https://huggingface.co/docs/transformers/model_doc/gpt2#transformers.GPT2Config
+  transformer_config:
+    n_head: 2
+    n_layer: 2
+    activation_function: 'gelu_new'
+    resid_pdrop: 0.1 
+    embd_pdrop: 0.1
+    attn_pdrop: 0.1

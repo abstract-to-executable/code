@@ -1,0 +1,76 @@
+env: "BoxPusherTrajectory-v0"
+verbose: 1
+env_cfg:
+  task_agnostic: False
+  early_success: False
+  reward_type: "lcs_dense"
+  trajectories: "datasets/boxpusher_v2/dataset_train_ids.npy"
+  trajectories_dataset: "datasets/boxpusher_v2/dataset.pkl"
+  max_trajectory_skip_steps: 15
+  control_type: "2D-continuous"
+  exclude_target_state: False
+exp_cfg:
+  algo: ppo
+  seed: 0
+  n_envs: 4
+
+  good_test_trajectory_threshold: None
+
+  accumulate_grads: False
+  #ppo configs
+  epochs: 10000
+  critic_warmup_epochs: 0
+  update_iters: 2
+  ent_coef: 0.1
+  steps_per_epoch: 20000
+  batch_size: 512
+  save_freq: 20
+  eval_freq: 50
+  eval_save_video: True
+  max_ep_len: 150
+  gamma: 0.99
+
+  dapg: False
+
+logging_cfg:
+  exp_name: boxpusher_v1_rl/mlp_0_v2
+  wandb: False
+  tensorboard: True
+  log_freq: 1
+
+model_cfg:
+  type: "MLPID"
+  pretrained_actor_weights: None
+  pretrained_critic_weights: None
+
+  state_dims: 6
+  teacher_dims: 4
+  act_dims: 2
+
+  max_time_steps: 1024
+  # below should also be merged into dataset_cfgs
+  max_student_length: 128
+  max_teacher_length: 64
+  trajectory_sample_skip_steps: 2
+  # equivalent to positional embeddings
+  timestep_embeddings: False
+  # whether to include past student actions into the student stack frames fed into transformer
+  use_past_actions: False
+  # whether to use layer normalization after the initial embedding layers of student/teacher states and student actions
+  embed_layer_norm: True
+
+  # translation model specific configs
+  stack_size: 1
+  state_embedding_hidden_sizes: (256,)
+  state_embedding_activation: 'relu'
+  final_mlp_hidden_sizes: (256,256,256)
+  final_mlp_activation: 'relu'
+  
+  final_mlp_action_pred_activation: 'tanh'
+  final_mlp_state_pred_activation: 'tanh'
+
+  # gpt2 specific https://huggingface.co/docs/transformers/model_doc/gpt2#transformers.GPT2Config
+  mlp_config:
+    dropout: 0.1
+    max_embedding: 2000
+    embedding_dim: 0

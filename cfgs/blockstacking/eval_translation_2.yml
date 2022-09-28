@@ -1,0 +1,18 @@
+env: "BlockStackTrajectory-v0"
+env_cfg:
+  task_agnostic: False
+  reward_type: "lcs_dp"
+  trajectories: "datasets/blockstack_v2/dataset_train_ids_800.npy"
+  trajectories_dataset: "datasets/blockstack_v2/dataset.pkl"
+  max_trajectory_skip_steps: 15
+  fixed_max_ep_len: 200
+  give_traj_id: False
+  max_rot_stray_dist: 0.5
+  max_world_state_stray_dist: 0.05
+  max_coord_stray_dist: 0.05
+  agent_diff_ratio: 0.1 # not using
+  max_stray_dist: 0.04 # not using
+  robot_type: 'Arm'
+
+test_n: 64
+n_envs: 8

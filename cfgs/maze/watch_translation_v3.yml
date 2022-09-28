@@ -1,0 +1,18 @@
+env: "MazeTrajectory-v0"
+device: 'cuda'
+env_cfg:
+  early_success: True
+  task_agnostic: False
+  reward_type: "lcs_dense"
+  trajectories: [0]
+  trajectories_dataset: "datasets/maze_v3/couch_5_corridorrange_12_24/dataset_teacher.pkl"
+  max_trajectory_skip_steps: 15
+  offscreen_only: False
+  env_rew_weight: 0.5
+  exclude_target_state: True
+  fixed_max_ep_len: 200
+  target_next_chamber: True
+  world_size: 200
+  repeat_actions: 2
+
+  sub_goals: False

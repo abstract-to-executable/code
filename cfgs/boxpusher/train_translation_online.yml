@@ -1,0 +1,77 @@
+env: "BoxPusherTrajectory-v0"
+env_cfg:
+  task_agnostic: True
+  reward_type: "trajectory"
+  # path to file with trajectory ids
+  trajectories: "datasets/data_v1_new/clean_learned_train_ids.npy"
+  trajectories_dataset: "datasets/data_v1_new/clean_learned.npy"
+  max_trajectory_skip_steps: 5
+  control_type: "2D-continuous"
+
+exp_cfg:
+  algo: ppo
+  seed: 0
+  n_envs: 32
+
+  accumulate_grads: False
+  #ppo configs
+  epochs: 15000 #200
+  critic_warmup_epochs: 5
+  update_iters: 10
+  steps_per_epoch: 5000
+  batch_size: 512
+
+  dapg: True
+  dapg_cfg:
+    dapg_lambda: 0.1
+    dapg_damping: 0.995
+    dapg_nll_loss: False
+    trajectories_dataset: "datasets/data_v1_new/clean_learned.npy"
+    train_ids: "datasets/data_v1_new/clean_learned_train_ids.npy"
+
+logging_cfg:
+  exp_name: boxpusher_dapg_from_scratch
+  wandb: False
+  tensorboard: True
+  log_freq: 1
+
+model_cfg:
+  type: "TranslationTransformer"
+  pretrained_actor_weights: None
+  pretrained_critic_weights: None
+
+  state_dims: 6
+  act_dims: 2
+  teacher_dims: 6
+
+  max_time_steps: 1024
+  # below should also be merged into dataset_cfgs
+  max_student_length: 128
+  max_teacher_length: 28
+  trajectory_sample_skip_steps: 3
+  # equivalent to positional embeddings
+  # timestep_embeddings: True
+  timestep_embeddings: False
+  # whether to include past student actions into the student stack frames fed into transformer
+  use_past_actions: True
+  # whether to use layer normalization after the initial embedding layers of student/teacher states and student actions
+  embed_layer_norm: True
+
+  # translation model specific configs
+  stack_size: 5
+  state_embedding_hidden_sizes: (64,)
+  state_embedding_activation: 'relu'
+  final_mlp_hidden_sizes: (64, 64)
+  final_mlp_activation: 'tanh'
+  
+  final_mlp_action_pred_activation: 'identity'
+  final_mlp_state_pred_activation: 'identity'
+
+  # gpt2 specific https://huggingface.co/docs/transformers/model_doc/gpt2#transformers.GPT2Config
+  transformer_config:
+    n_head: 2
+    n_layer: 2
+    activation_function: 'gelu_new'
+    resid_pdrop: 0.1 
+    embd_pdrop: 0.1
+    attn_pdrop: 0.1

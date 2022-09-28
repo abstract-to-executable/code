@@ -1,0 +1,34 @@
+env: "BoxPusherTrajectory-v0"
+env_cfg:
+  task_agnostic: False
+  reward_type: "lcs_dense"
+  # not used
+  trajectories: "datasets/boxpusher_v2/dataset_train_ids.npy"
+  trajectories_dataset: "datasets/boxpusher_v2/dataset.pkl"
+  max_trajectory_skip_steps: 15
+  control_type: "2D-continuous"
+  fixed_max_ep_len: 200
+  exclude_target_state: True
+  seed_by_dataset: False
+  env_rew_weight: 0.1
+  speed_factor: 0.5
+  re_center: False
+  planner_cfg:
+    planner: "v1"
+    planning_env: "v1"
+    render_plan: False
+    max_plan_length: 300
+    re_center: False
+    save_plan_videos: False
+    min_student_execute_length: 200
+    max_student_execute_length: 200
+    env_cfg:
+      magic_control: True
+      control_type: 2D
+      obs_mode: dict
+      disable_ball_removal: True
+      task: obstacle
+  task: obstacle
+
+test_n: 128
+n_envs: 16
