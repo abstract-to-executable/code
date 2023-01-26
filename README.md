@@ -1,6 +1,5 @@
 # Abstract-to-Executable Trajectory Translation for One-Shot Task Generalization
 
-This the anonymized source code for our submission to ICLR 2023
 
 ## Development/Running experiments
 
